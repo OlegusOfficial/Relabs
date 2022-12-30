@@ -20,5 +20,6 @@
 1. Клонируйте репозиторий с проектом (git clone https://github.com/OlegusOfficial/Relabs)
 2. Убедитесь, что вы находитесь в новом виртуальном окружении
 3. Установите необходимые зависимости (pip install -r requirements.txt)
-4. В терминале запустите сервер (uvicorn server:app --reload)
+4. В терминале зайдите в папку server и запустите приложение (uvicorn server:app --reload)
 5. Откройте в браузере http://localhost:8000/
+6. Для остановки приложения в терминале Ctrl+C
