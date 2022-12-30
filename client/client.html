@@ -4,26 +4,33 @@
         <title>Chat</title>
     </head>
     <body>
-        <h2>Введите сообщение</h2>
+        <h2>Enter a message</h2>
         <form action="" onsubmit="sendMessage(event)">
             <input type="text" id="messageText" autocomplete="off"/>
-            <button>Отправить</button>
+            <p><button>Send</button></p>
         </form>
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            const ws = new WebSocket("ws://localhost:8000/ws");
             ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
-                var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)
+                const messages = document.getElementById('messages');
+                const json_data = JSON.parse(event.data);
+                const content = json_data['message_text'];
+                const message_num = json_data['message_num']
+                const text_node = document.createTextNode(message_num + ') ' + content)
+                const linebreak = document.createElement("br");
+                messages.appendChild(text_node)
+                messages.appendChild(linebreak);
             };
             function sendMessage(event) {
-                var input = document.getElementById("messageText")
+                const input = document.getElementById("messageText");
                 console.log(input.value)
-                ws.send(input.value)
+                let message = {
+                    message_text: input.value
+                }
+                const message_json = JSON.stringify(message)
+                ws.send(message_json)
                 input.value = ''
                 event.preventDefault()
             }

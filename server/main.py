@@ -1,5 +1,6 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
+import json
 
 app = FastAPI()
 
@@ -17,5 +18,7 @@ async def websocket_endpoint(websocket: WebSocket):
     nums = 0
     while True:
         data = await websocket.receive_text()
+        json_data = json.loads(data)
         nums += 1
-        await websocket.send_text(f"{nums} сообщение '{data}'")
+        json_data['message_num'] = nums
+        await websocket.send_text(json.dumps(json_data))
